@@ -1,0 +1,94 @@
+midterm
+    algorithm clarity
+    bullets
+    always mention time complexity (doesn't need to be hard proof)
+    proof approaches: inductin, indirect, exchange argument (greedy)
+    don't assume anything
+    ask about proof if uncertain
+
+1. interval scheduling
+info:
+    Ii = [sizei]
+    i is part of {1,...,n}
+algorithm:
+    1. assume that the intervals are sorted according to their ending time tj.
+    2. initialize a set with all intervals
+    3. while the set has intervals, pick the interval with lowest ending time and remove all intersecting job
+    from set
+    idea: take any job I'
+        case1 - add to set
+        case2 - delete from set
+proof: 
+    assume your algo makes I1, I2,...,In1 and optimal makes I1', I2',...,In2'
+    use induction
+    base case: if there is only 1 job, then both algorithms will pick one job, 
+    n1 = n2 = 1
+    inductive step: prove that the r'th added job f(Ir-1) <= S(Ir') assuming
+    f(Ir-1) <= f(I'r-1)
+    this algorithm stays ahead
+
+2. path from s to t
+info: 
+    all weights are positive
+    graph is sparse (n > m)  
+a. Running Dijkstra algorithm gives runtime O(mlogn). Usually m = n^2. But since
+the graph is sparse, we say that m = n, so the algorithm runs in O(vlogv).
+b. Explain the runtime of Dijkstra and how the heap data structure is used. Extract_key and decrease_key
+both run in O(logn), and this will need to be done for each of the m edges. 
+
+3. max sum of integers
+info:
+    consider a plot of the numbers and the integral of that curve
+algorithm: kadane algo
+    Initialize:
+        max_so_far = 0
+        max_ending_here = 0
+
+    Loop for each element of the array
+    (a) max_ending_here = max_ending_here + a[i]
+    (b) if(max_ending_here < 0)
+            max_ending_here = 0
+    (c) if(max_so_far < max_ending_here)
+            max_so_far = max_ending_here
+    return max_so_far
+proof:
+    https://afshinm.name/2018/06/24/why-kadane-algorithm-works/
+
+4. DFS
+    a. 
+        0. stack has 4
+        1. visit v4, find v2 and v6 - stack has 2,6
+        2. visit v6, find v5 - stack has 2,5
+        3. visit v5, don't find new nodes - stack has 2
+        4. visit v2, find v1 and v3 - stack has 1,3
+        5. visit v3, don't find new nodes - stack has 1
+        6. visit v1, find v0 - stack has 0
+        7. visit v0, don't find new nodes - stack is empty
+    b. For a connected graph, DFS runs in time O(m+n). assume the graph of n 
+    nodes is not connected, such that there is a component of a edges and b
+    nodes. Now the runtime is O(m-a+n-b) + O(a+b) = O(m+n)
+
+5. binary tree 
+info: 
+    not necessarily balanced
+    not rooted (means root can be chosen arbitrarily?)
+    algo needs to be linear -> BFS or DFS
+algorithm:
+    arbitrarily pick node S as root
+    run BFS from S
+    chose V furthest from S in BFS tree
+    run BFS from S 
+    max distance point gives you the diameter
+runtime:
+    O(m+n) for BFS, ran twice so still O(m+n)
+proof:
+    discuss generality of the approach
+
+#13 page 194
+info: 
+    single machine
+    i -> ti
+    wi -> importance
+    Ci -> completion time for customer
+    minimize the loss function: sum of wi*Ci
+
